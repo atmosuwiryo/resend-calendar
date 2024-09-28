@@ -24,12 +24,20 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Endpoint for send email using resend with [Nest](https://github.com/nestjs/nest) framework.
+
+Email sent crafted so that can be parsed to create calendar events.
+
+<!-- [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository. -->
 
 ## Project setup
 
 ```bash
+# install dependencies
 $ pnpm install
+
+# create .env file
+$ cp .env.example .env
 ```
 
 ## Compile and run the project
