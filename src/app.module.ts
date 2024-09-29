@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
@@ -8,6 +9,10 @@ import { AppService } from './app.service';
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
+    }),
+    HttpModule.register({
+      timeout: 5000,
+      maxRedirects: 5,
     }),
   ],
   controllers: [AppController],
