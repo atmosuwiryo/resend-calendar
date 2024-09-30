@@ -42,7 +42,7 @@ ${createCalendarDto.calendarDescription}
   async createCalendarV2(createCalendarDto: CreateCalendarDto) {
     const googleScriptUrl = this.configService.get('GOOGLE_SCRIPT_URL');
 
-    const { data } = await lastValueFrom(
+    const result = await lastValueFrom(
       this.httpService
         .post(
           googleScriptUrl,
@@ -63,6 +63,11 @@ ${createCalendarDto.calendarDescription}
         ),
     );
 
-    return data;
+    if (result.data) {
+      return result.data;
+    }
+
+    console.log(result)
+    return '';
   }
 }
