@@ -7,6 +7,7 @@ import { Resend } from 'resend';
 import { catchError, lastValueFrom } from 'rxjs';
 
 import { CreateCalendarDto } from './app.dto';
+import { parseHtmlAndCheckException } from './utils/html-parser';
 
 @Injectable()
 export class AppService {
@@ -42,7 +43,7 @@ ${createCalendarDto.calendarDescription}
   async createCalendarV2(createCalendarDto: CreateCalendarDto) {
     const googleScriptUrl = this.configService.get('GOOGLE_SCRIPT_URL');
 
-    const result = await lastValueFrom(
+    const { data } = await lastValueFrom(
       this.httpService
         .post(
           googleScriptUrl,
@@ -57,17 +58,19 @@ ${createCalendarDto.calendarDescription}
         )
         .pipe(
           catchError((error: AxiosError) => {
-            console.log(error.response.data);
+            console.log(error);
             throw new ServiceUnavailableException();
           }),
         ),
     );
 
-    if (result.data) {
-      return result.data;
+    /** Check if the message contains the word "Exception" */
+    const exceptionMessage = parseHtmlAndCheckException(data);
+
+    if (exceptionMessage) {
+      throw new ServiceUnavailableException(exceptionMessage);
     }
 
-    console.log(result)
-    return '';
+    return data;
   }
 }
