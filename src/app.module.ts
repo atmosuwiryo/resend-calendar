@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { GoogleScriptService } from './google-script.service';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { AppService } from './app.service';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, GoogleScriptService],
 })
 export class AppModule {}

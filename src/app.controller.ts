@@ -1,12 +1,18 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Delete, HttpCode, Post } from '@nestjs/common';
 import {
+  ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 
-import { CreateCalendarDto } from './app.dto';
+import {
+  CreateCalendarDto,
+  DeleteCalendarDto,
+  RescheduleCalendarDto,
+} from './app.dto';
+import { ResponseEntity } from './app.entity';
 import { AppService } from './app.service';
 
 @ApiTags('Calendar')
@@ -26,13 +32,34 @@ export class AppController {
   }
 
   @ApiOperation({
+    summary: 'Reschedule Calendar',
+    description: 'Reschedule Calendar',
+  })
+  @ApiOkResponse({ type: ResponseEntity })
+  @Post('v2/reschedule')
+  async rescheduleCalendarV2(
+    @Body() rescheduleCalendar: RescheduleCalendarDto,
+  ) {
+    return this.appService.rescheduleCalendarV2(rescheduleCalendar);
+  }
+
+  @ApiOperation({
     summary: 'Create Calendar',
     description: 'Create Calendar',
   })
-  @ApiOkResponse({ type: String })
-  @HttpCode(200)
+  @ApiCreatedResponse({ type: ResponseEntity })
   @Post('v2')
   async createCalendarV2(@Body() createCalendarDto: CreateCalendarDto) {
     return this.appService.createCalendarV2(createCalendarDto);
+  }
+
+  @ApiOperation({
+    summary: 'Delete Calendar',
+    description: 'Delete Calendar',
+  })
+  @ApiOkResponse({ type: ResponseEntity })
+  @Delete('v2')
+  async deleteCalendarV2(@Body() deleteCalendarDto: DeleteCalendarDto) {
+    return this.appService.deleteCalendarV2(deleteCalendarDto);
   }
 }
