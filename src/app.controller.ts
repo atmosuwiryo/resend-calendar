@@ -11,6 +11,7 @@ import {
   CreateCalendarDto,
   DeleteCalendarDto,
   RescheduleCalendarDto,
+  UpdateCalendarDto,
 } from './app.dto';
 import { ResponseEntity } from './app.entity';
 import { AppService } from './app.service';
@@ -29,6 +30,18 @@ export class AppController {
   @Post()
   async createCalendar(@Body() createCalendarDto: CreateCalendarDto) {
     return this.appService.createCalendar(createCalendarDto);
+  }
+
+  @ApiOperation({
+    summary: 'Update Calendar',
+    description: 'Update Calendar',
+  })
+  @ApiOkResponse({ type: ResponseEntity })
+  @Post('v2/update')
+  async updateCalendarV2(
+    @Body() updateCalendarDto: UpdateCalendarDto,
+  ) {
+    return this.appService.updateCalendarV2(updateCalendarDto);
   }
 
   @ApiOperation({

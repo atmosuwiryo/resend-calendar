@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GoogleScriptService } from './google-script.service';
+import { V4Module } from './v4/v4.module';
 
 @Module({
   imports: [
@@ -12,9 +13,10 @@ import { GoogleScriptService } from './google-script.service';
       envFilePath: '.env',
     }),
     HttpModule.register({
-      timeout: 5000,
+      timeout: 10000,
       maxRedirects: 5,
     }),
+    V4Module,
   ],
   controllers: [AppController],
   providers: [AppService, GoogleScriptService],

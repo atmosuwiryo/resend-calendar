@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsEmail, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsDateString, IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class CreateCalendarDto {
   @ApiProperty({
@@ -75,4 +75,55 @@ export class RescheduleCalendarDto extends DeleteCalendarDto {
   })
   @IsDateString()
   calendarNewEndDateTimeString: string;
+}
+
+export class UpdateCalendarDto extends DeleteCalendarDto {
+
+  @ApiPropertyOptional({
+    description: 'String of Calendar New Start Date Time',
+    example: '2024-11-01T09:00:00.000Z',
+  })
+  @IsDateString()
+  @IsOptional()
+  calendarNewStartDateTimeString: string;
+
+  @ApiPropertyOptional({
+    description: 'String of Calendar New End Date Time',
+    example: '2024-11-01T09:30:00.000Z',
+  })
+  @IsDateString()
+  @IsOptional()
+  calendarNewEndDateTimeString: string;
+
+  @ApiPropertyOptional({
+    description: 'Calendar New Title',
+    example: 'New Dentist Appointment',
+  })
+  @IsString()
+  @IsOptional()
+  calendarNewTitle: string;
+
+  @ApiPropertyOptional({
+    description: 'Calendar New Description',
+    example: 'New Appointment with Dr. Smith',
+  })
+  @IsString()
+  @IsOptional()
+  calendarNewDescription: string;
+
+  @ApiPropertyOptional({
+    description: 'Calendar Add Guests',
+    example: ['suwiryo.atmo@gmail.com', 'johndoe.atmo@gmail.com'],
+  })
+  @IsEmail({}, { each: true })
+  @IsOptional()
+  calendarAddGuests: string[];
+
+  @ApiPropertyOptional({
+    description: 'Calendar Remove Guests',
+    example: ['suwiryo.atmo@gmail.com', 'johndoe.atmo@gmail.com'],
+  })
+  @IsEmail({}, { each: true })
+  @IsOptional()
+  calendarRemoveGuests: string[];
 }

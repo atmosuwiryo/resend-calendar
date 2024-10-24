@@ -12,6 +12,7 @@ import {
   CreateCalendarDto,
   DeleteCalendarDto,
   RescheduleCalendarDto,
+  UpdateCalendarDto,
 } from './app.dto';
 import { GoogleScriptService } from './google-script.service';
 import { parseHtmlAndCheckException } from './utils/html-parser';
@@ -114,6 +115,43 @@ ${createCalendarDto.calendarDescription}
       newStartTime: rescheduleCalendarDto.calendarNewStartDateTimeString,
       newEndTime: rescheduleCalendarDto.calendarNewEndDateTimeString,
     };
+    const { data } = await lastValueFrom(
+      this.googleScriptService.doPost(payload),
+    );
+
+    /** Check if the message contains the word "Exception" */
+    // If data.success is undefined then google script returns html data
+    // We need to parse the html and check if the message contains the word "Exception"
+    // example of this condition is when quota is exceeded
+    if (data.success === undefined) {
+      const exceptionMessage = parseHtmlAndCheckException(data);
+
+      if (exceptionMessage) {
+        throw new ServiceUnavailableException(exceptionMessage);
+      }
+    }
+
+    if (data.success === false) {
+      throw new NotFoundException(data);
+    }
+
+    return data;
+  }
+
+  async updateCalendarV2(updateCalendarDto: UpdateCalendarDto) {
+    const payload = {
+      action: 'update',
+      userEmail: updateCalendarDto.userEmail,
+      startTime: updateCalendarDto.calendarStartDateTimeString,
+      endTime: updateCalendarDto.calendarEndDateTimeString,
+      newStartTime: updateCalendarDto.calendarNewStartDateTimeString,
+      newEndTime: updateCalendarDto.calendarNewEndDateTimeString,
+      addGuests: updateCalendarDto.calendarAddGuests,
+      removeGuests: updateCalendarDto.calendarRemoveGuests,
+      newTitle: updateCalendarDto.calendarNewTitle,
+      newDescription: updateCalendarDto.calendarNewDescription,
+    };
+    console.log(payload);
     const { data } = await lastValueFrom(
       this.googleScriptService.doPost(payload),
     );
