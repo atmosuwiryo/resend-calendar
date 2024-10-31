@@ -14,7 +14,7 @@ import {
   RescheduleCalendarDto,
   UpdateCalendarDto,
 } from './app.dto';
-import { GoogleScriptService } from './google-script.service';
+import { GoogleScriptService } from './services/google-script.service';
 import { parseHtmlAndCheckException } from './utils/html-parser';
 
 @Injectable()
@@ -66,7 +66,7 @@ ${createCalendarDto.calendarDescription}
     // We need to parse the html and check if the message contains the word "Exception"
     // example of this condition is when quota is exceeded
     if (data.success === undefined) {
-      const exceptionMessage = parseHtmlAndCheckException(data);
+      const exceptionMessage = parseHtmlAndCheckException(data as unknown as string);
 
       if (exceptionMessage) {
         throw new ServiceUnavailableException(exceptionMessage);
@@ -78,7 +78,7 @@ ${createCalendarDto.calendarDescription}
 
   async deleteCalendarV2(deleteCalendarDto: DeleteCalendarDto) {
     const payload = {
-      action: 'delete',
+      action: 'cancel',
       userEmail: deleteCalendarDto.userEmail,
       startTime: deleteCalendarDto.calendarStartDateTimeString,
       endTime: deleteCalendarDto.calendarEndDateTimeString,
@@ -92,7 +92,7 @@ ${createCalendarDto.calendarDescription}
     // We need to parse the html and check if the message contains the word "Exception"
     // example of this condition is when quota is exceeded
     if (data.success === undefined) {
-      const exceptionMessage = parseHtmlAndCheckException(data);
+      const exceptionMessage = parseHtmlAndCheckException(data as unknown as string);
 
       if (exceptionMessage) {
         throw new ServiceUnavailableException(exceptionMessage);
@@ -124,7 +124,7 @@ ${createCalendarDto.calendarDescription}
     // We need to parse the html and check if the message contains the word "Exception"
     // example of this condition is when quota is exceeded
     if (data.success === undefined) {
-      const exceptionMessage = parseHtmlAndCheckException(data);
+      const exceptionMessage = parseHtmlAndCheckException(data as unknown as string);
 
       if (exceptionMessage) {
         throw new ServiceUnavailableException(exceptionMessage);
@@ -161,7 +161,7 @@ ${createCalendarDto.calendarDescription}
     // We need to parse the html and check if the message contains the word "Exception"
     // example of this condition is when quota is exceeded
     if (data.success === undefined) {
-      const exceptionMessage = parseHtmlAndCheckException(data);
+      const exceptionMessage = parseHtmlAndCheckException(data as unknown as string);
 
       if (exceptionMessage) {
         throw new ServiceUnavailableException(exceptionMessage);

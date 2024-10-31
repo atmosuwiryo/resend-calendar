@@ -27,6 +27,8 @@ export interface CalendarEvent {
 
 @Injectable()
 export class GoogleCalendarService {
+  logger = new Logger(GoogleCalendarService.name);
+
   private calendar: calendar_v3.Calendar;
   private calendarId = this.configService.get('CALENDAR_ID');
   private credentialsFilename = this.configService.get('CREDENTIALS_FILENAME');
@@ -38,7 +40,7 @@ export class GoogleCalendarService {
   }
 
   private async initialize(): Promise<void> {
-    Logger.log('Initializing Google Calendar service...');
+    this.logger.log('Initializing Google Calendar service...');
     const auth = new google.auth.JWT({
       keyFile: path.join(process.cwd(), this.credentialsFilename),
       scopes: ['https://www.googleapis.com/auth/calendar'],
@@ -66,7 +68,7 @@ export class GoogleCalendarService {
 
       return response.data.items || [];
     } catch (error) {
-      Logger.error(`Error listing events: ${error}`);
+      this.logger.error(`Error listing events: ${error}`);
       throw error;
     }
   }
@@ -80,7 +82,7 @@ export class GoogleCalendarService {
 
       return response.data;
     } catch (error) {
-      Logger.error(`Error getting event: ${error}`);
+      this.logger.error(`Error getting event: ${error}`);
       throw error;
     }
   }
@@ -94,7 +96,7 @@ export class GoogleCalendarService {
 
       return response.data;
     } catch (error) {
-      Logger.error(`Error creating event: ${error}`);
+      this.logger.error(`Error creating event: ${error}`);
       throw error;
     }
   }
@@ -112,7 +114,7 @@ export class GoogleCalendarService {
 
       return response.data;
     } catch (error) {
-      Logger.error(`Error updating event: ${error}`);
+      this.logger.error(`Error updating event: ${error}`);
       throw error;
     }
   }
@@ -124,7 +126,7 @@ export class GoogleCalendarService {
         eventId: eventId,
       });
     } catch (error) {
-      Logger.error(`Error deleting event: ${error}`);
+      this.logger.error(`Error deleting event: ${error}`);
       throw error;
     }
   }
@@ -142,7 +144,7 @@ export class GoogleCalendarService {
 
       return response.data;
     } catch (error) {
-      Logger.error(`Error moving event: ${error}`);
+      this.logger.error(`Error moving event: ${error}`);
       throw error;
     }
   }
@@ -156,7 +158,7 @@ export class GoogleCalendarService {
 
       return response.data;
     } catch (error) {
-      Logger.error(`Error quick adding event: ${error}`);
+      this.logger.error(`Error quick adding event: ${error}`);
       throw error;
     }
   }
@@ -166,7 +168,7 @@ export class GoogleCalendarService {
       const response = await this.calendar.calendarList.list();
       return response.data;
     } catch (error) {
-      Logger.error(`Error getting calendar list: ${error}`);
+      this.logger.error(`Error getting calendar list: ${error}`);
       throw error;
     }
   }

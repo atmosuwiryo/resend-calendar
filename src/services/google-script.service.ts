@@ -3,9 +3,12 @@ import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { catchError } from 'rxjs';
+import { ResponseEntityV3 } from 'src/v3/entities/v3.entity';
 
 @Injectable()
 export class GoogleScriptService {
+  logger = new Logger(GoogleScriptService.name);
+
   google_script_url = this.configService.get('GOOGLE_SCRIPT_URL');
   constructor(
     private readonly httpService: HttpService,
@@ -13,26 +16,28 @@ export class GoogleScriptService {
   ) {}
 
   doPost(payload: any) {
+    this.logger.log(`POST: ${JSON.stringify(payload)}`);
     return this.httpService
-      .post(this.google_script_url, payload, {
+      .post<ResponseEntityV3>(this.google_script_url, payload, {
         headers: { 'Content-Type': 'application/json' },
       })
       .pipe(
         catchError((error: AxiosError) => {
-          Logger.error(error);
+          this.logger.error(error);
           throw new ServiceUnavailableException();
         }),
       );
   }
 
-  doGet() {
+  doGet(id: string) {
+    this.logger.log(`GET: ${id}`);
     return this.httpService
-      .get(this.google_script_url, {
+      .get<ResponseEntityV3>(`${this.google_script_url}?id=${id}`, {
         headers: { 'Content-Type': 'application/json' },
       })
       .pipe(
         catchError((error: AxiosError) => {
-          Logger.error(error);
+          this.logger.error(error);
           throw new ServiceUnavailableException();
         }),
       );
