@@ -11,7 +11,11 @@ export const parseHtmlAndCheckException = (html: string): string | null => {
     const errorText = errorDiv.text().trim();
 
     // Check if the error message contains the word "Exception"
-    if (errorText && ( errorText.toLowerCase().includes('exception') || errorText.toLowerCase().includes('error'))) {
+    if (
+      errorText &&
+      (errorText.toLowerCase().includes('exception') ||
+        errorText.toLowerCase().includes('error'))
+    ) {
       return errorText;
     }
   }

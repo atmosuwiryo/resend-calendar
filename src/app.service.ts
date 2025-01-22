@@ -66,7 +66,9 @@ ${createCalendarDto.calendarDescription}
     // We need to parse the html and check if the message contains the word "Exception"
     // example of this condition is when quota is exceeded
     if (data.success === undefined) {
-      const exceptionMessage = parseHtmlAndCheckException(data as unknown as string);
+      const exceptionMessage = parseHtmlAndCheckException(
+        data as unknown as string,
+      );
 
       if (exceptionMessage) {
         throw new ServiceUnavailableException(exceptionMessage);
@@ -92,7 +94,9 @@ ${createCalendarDto.calendarDescription}
     // We need to parse the html and check if the message contains the word "Exception"
     // example of this condition is when quota is exceeded
     if (data.success === undefined) {
-      const exceptionMessage = parseHtmlAndCheckException(data as unknown as string);
+      const exceptionMessage = parseHtmlAndCheckException(
+        data as unknown as string,
+      );
 
       if (exceptionMessage) {
         throw new ServiceUnavailableException(exceptionMessage);
@@ -124,7 +128,9 @@ ${createCalendarDto.calendarDescription}
     // We need to parse the html and check if the message contains the word "Exception"
     // example of this condition is when quota is exceeded
     if (data.success === undefined) {
-      const exceptionMessage = parseHtmlAndCheckException(data as unknown as string);
+      const exceptionMessage = parseHtmlAndCheckException(
+        data as unknown as string,
+      );
 
       if (exceptionMessage) {
         throw new ServiceUnavailableException(exceptionMessage);
@@ -161,7 +167,9 @@ ${createCalendarDto.calendarDescription}
     // We need to parse the html and check if the message contains the word "Exception"
     // example of this condition is when quota is exceeded
     if (data.success === undefined) {
-      const exceptionMessage = parseHtmlAndCheckException(data as unknown as string);
+      const exceptionMessage = parseHtmlAndCheckException(
+        data as unknown as string,
+      );
 
       if (exceptionMessage) {
         throw new ServiceUnavailableException(exceptionMessage);

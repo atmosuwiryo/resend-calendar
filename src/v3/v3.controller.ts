@@ -1,10 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Logger } from '@nestjs/common';
-import { V3Service } from './v3.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Logger,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import {
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+
 import { CreateV3Dto } from './dto/create-v3.dto';
-import { UpdateV3Dto } from './dto/update-v3.dto';
 import { IdV3Dto } from './dto/id-v3.dto';
-import { ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UpdateV3Dto } from './dto/update-v3.dto';
 import { ResponseEntityV3 } from './entities/v3.entity';
+import { V3Service } from './v3.service';
 
 @ApiTags('v3')
 @Controller('v3')

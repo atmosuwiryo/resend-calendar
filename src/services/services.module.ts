@@ -1,9 +1,9 @@
-
-import { Global, Module } from '@nestjs/common';
-import { GoogleScriptService } from './google-script.service';
-import { GoogleCalendarService } from './google-calendar.service';
 import { HttpModule } from '@nestjs/axios';
+import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+
+import { GoogleCalendarService } from './google-calendar.service';
+import { GoogleScriptService } from './google-script.service';
 
 @Global()
 @Module({

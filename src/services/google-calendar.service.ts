@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { google, calendar_v3 } from 'googleapis';
+import { calendar_v3, google } from 'googleapis';
 import * as path from 'path';
 
 export interface CalendarEvent {
@@ -42,19 +42,26 @@ export class GoogleCalendarService {
   private async initialize(): Promise<void> {
     this.logger.log('Initializing Google Calendar service...');
     const auth = new google.auth.JWT({
+      // email: 'breezbook-calendar@breezbook-calendar.iam.gserviceaccount.com',
       keyFile: path.join(process.cwd(), this.credentialsFilename),
-      scopes: ['https://www.googleapis.com/auth/calendar'],
+      scopes: [
+        'https://www.googleapis.com/auth/calendar',
+        'https://www.googleapis.com/auth/calendar.events',
+      ],
+      subject: this.calendarId,
     });
 
     this.calendar = google.calendar({ version: 'v3', auth });
   }
 
-  async listEvents(params: {
-    maxResults?: number;
-    timeMin?: string;
-    timeMax?: string;
-    q?: string;  // Search query
-  } = {}): Promise<calendar_v3.Schema$Event[]> {
+  async listEvents(
+    params: {
+      maxResults?: number;
+      timeMin?: string;
+      timeMax?: string;
+      q?: string; // Search query
+    } = {},
+  ): Promise<calendar_v3.Schema$Event[]> {
     try {
       const response = await this.calendar.events.list({
         calendarId: this.calendarId,
@@ -103,7 +110,7 @@ export class GoogleCalendarService {
 
   async updateEvent(
     eventId: string,
-    event: Partial<CalendarEvent>
+    event: Partial<CalendarEvent>,
   ): Promise<calendar_v3.Schema$Event> {
     try {
       const response = await this.calendar.events.patch({
@@ -133,7 +140,7 @@ export class GoogleCalendarService {
 
   async moveEvent(
     eventId: string,
-    destinationCalendarId: string
+    destinationCalendarId: string,
   ): Promise<calendar_v3.Schema$Event> {
     try {
       const response = await this.calendar.events.move({

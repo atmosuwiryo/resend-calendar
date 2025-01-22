@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsEmail, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsDateString, IsEmail, IsString } from 'class-validator';
 
 export class CreateV3Dto {
   @ApiProperty({

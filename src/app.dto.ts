@@ -78,7 +78,6 @@ export class RescheduleCalendarDto extends DeleteCalendarDto {
 }
 
 export class UpdateCalendarDto extends DeleteCalendarDto {
-
   @ApiPropertyOptional({
     description: 'String of Calendar New Start Date Time',
     example: '2024-11-01T09:00:00.000Z',

@@ -1,19 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { lastValueFrom } from 'rxjs';
+import { GoogleScriptService } from 'src/services/google-script.service';
+import { validateResponse } from 'src/utils/validate-response';
+
 import { CreateV3Dto } from './dto/create-v3.dto';
 import { UpdateV3Dto } from './dto/update-v3.dto';
-import { lastValueFrom } from 'rxjs';
-import { validateResponse } from 'src/utils/validate-response';
-import { GoogleScriptService } from 'src/services/google-script.service';
-
-const logger = new Logger('V3Service');
 
 @Injectable()
 export class V3Service {
   logger = new Logger(V3Service.name);
 
-  constructor(
-    private readonly googleScriptService: GoogleScriptService
-  ) {}
+  constructor(private readonly googleScriptService: GoogleScriptService) {}
   async create(createV3Dto: CreateV3Dto) {
     const payload = {
       action: 'post',
@@ -32,9 +29,7 @@ export class V3Service {
   // }
 
   async findOne(id: string) {
-    const { data } = await lastValueFrom(
-      this.googleScriptService.doGet(id),
-    );
+    const { data } = await lastValueFrom(this.googleScriptService.doGet(id));
 
     validateResponse(data);
     return data;

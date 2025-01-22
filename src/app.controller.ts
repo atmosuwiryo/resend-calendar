@@ -38,9 +38,7 @@ export class AppController {
   })
   @ApiOkResponse({ type: ResponseEntity })
   @Post('v2/update')
-  async updateCalendarV2(
-    @Body() updateCalendarDto: UpdateCalendarDto,
-  ) {
+  async updateCalendarV2(@Body() updateCalendarDto: UpdateCalendarDto) {
     return this.appService.updateCalendarV2(updateCalendarDto);
   }
 
